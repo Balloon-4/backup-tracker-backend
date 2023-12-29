@@ -1,0 +1,25 @@
+{
+    "scripts": {
+        "deploy": "wrangler deploy",
+        "start": "wrangler dev",
+        "test": "vitest"
+    },
+    "devDependencies": {
+        "@cloudflare/workers-types": "^4.20231218.0",
+        "@tsconfig/node-lts": "^20.1.0",
+        "@types/node": "^20.4.6",
+        "@typescript-eslint/eslint-plugin": "^6.15.0",
+        "@typescript-eslint/parser": "^6.15.0",
+        "eslint": "^8.56.0",
+        "eslint-config-airbnb-base": "^15.0.0",
+        "eslint-config-airbnb-typescript": "^17.1.0",
+        "eslint-plugin-import": "^2.29.1",
+        "typescript": "^5.3.3",
+        "vitest": "^1.1.0",
+        "wrangler": "^3.22.1"
+    },
+    "dependencies": {
+        "@bubblydoo/cloudflare-workers-postgres-client": "^0.0.10",
+        "cloudworker-router": "^4.1.5"
+    }
+}

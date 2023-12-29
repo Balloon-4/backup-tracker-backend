@@ -1,0 +1,15 @@
+{
+    "extends": "@tsconfig/node-lts/tsconfig.json",
+    "compilerOptions": {
+        "target": "ES2022",
+        "module": "Node16",
+        "allowJs": false,
+        "checkJs": false,
+        "exactOptionalPropertyTypes": false,
+        "noPropertyAccessFromIndexSignature": false,
+        "types": [
+            "@cloudflare/workers-types",
+            "node"
+        ]
+    }
+}
