@@ -1,7 +1,7 @@
 import { Context, Next } from 'cloudworker-router';
 
 export interface Env {
-    DB: D1Database;
+    // DB: D1Database;
     DATABASE_PASSWORD: string;
     TUNNEL_HOST: string;
     CF_CLIENT_ID: string;
@@ -14,4 +14,18 @@ export interface IMidware {
 
 export enum Route {
     DATA = '/data',
+}
+
+export interface Telemetry {
+    altitude: number;
+    accuracy: number;
+    batteryPercent: number;
+    cellStrength: number;
+    date: string;
+    latitude: number;
+    longitude: number;
+    provider: string;
+    session: string;
+    speed: number;
+    temperature: number;
 }

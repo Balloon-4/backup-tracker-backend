@@ -14,12 +14,18 @@
         "eslint-config-airbnb-base": "^15.0.0",
         "eslint-config-airbnb-typescript": "^17.1.0",
         "eslint-plugin-import": "^2.29.1",
+        "ts-json-schema-generator": "^1.5.0",
+        "tsx": "^4.7.0",
         "typescript": "^5.3.3",
         "vitest": "^1.1.0",
         "wrangler": "^3.22.1"
     },
     "dependencies": {
         "@bubblydoo/cloudflare-workers-postgres-client": "^0.0.10",
-        "cloudworker-router": "^4.1.5"
+        "@cfworker/json-schema": "^1.12.7",
+        "ajv": "^8.12.0",
+        "ajv-cli": "^5.0.0",
+        "cloudworker-router": "^4.1.5",
+        "pg-mem": "^2.7.4"
     }
 }

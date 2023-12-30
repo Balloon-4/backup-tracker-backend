@@ -1,97 +1,83 @@
-import type { Context, Router } from 'cloudworker-router';
+import type { Router } from 'cloudworker-router';
 // @ts-expect-error
-import { Client } from '@bubblydoo/cloudflare-workers-postgres-client';
-import { type Env, Route } from '../@types/types';
-
-interface IRequestBody {
-    altitude: number;
-    accuracy: number;
-    batteryPercent: number;
-    cellStrength: number;
-    date: string;
-    latitude: number;
-    longitude: number;
-    provider: string;
-    session: string;
-    speed: number;
-    temperature: number;
-}
+import { Schema } from '@cfworker/json-schema';
+import { type Env, Route, Telemetry } from '../@types/types';
+import { addTelemetry } from '../database/addTelemetry';
+import { executeSQL } from '../database/executeSQL';
+import { getClient } from '../database/getClient';
+import { JSONBodyValidateMidware } from '../midware/JSONBodyValidateMidware';
 
 // https://github.com/cloudflare/worker-template-postgres
 // https://github.com/bubblydoo/cloudflare-workers-postgres-client/tree/main
 // https://github.com/cloudflare/worker-template-postgres/blob/master/scripts/postgres/docker-compose.yml
 
+export const schema: Schema = {
+    $id: '#/definitions/Telemetry',
+    $schema: 'http://json-schema.org/draft-07/schema#',
+    properties: {
+        accuracy: {
+            type: 'number',
+        },
+        altitude: {
+            type: 'number',
+        },
+        batteryPercent: {
+            type: 'number',
+        },
+        cellStrength: {
+            type: 'number',
+        },
+        date: {
+            type: 'string',
+        },
+        latitude: {
+            type: 'number',
+        },
+        longitude: {
+            type: 'number',
+        },
+        provider: {
+            type: 'string',
+        },
+        session: {
+            type: 'string',
+        },
+        speed: {
+            type: 'number',
+        },
+        temperature: {
+            type: 'number',
+        },
+    },
+    required: [
+        'altitude',
+        'accuracy',
+        'batteryPercent',
+        'cellStrength',
+        'date',
+        'latitude',
+        'longitude',
+        'provider',
+        'session',
+        'speed',
+        'temperature',
+    ],
+    type: 'object',
+};
+
+const midware = [new JSONBodyValidateMidware(schema).generate];
+
 export default (router: Router<Env>) => {
-    router.post(Route.DATA, async (ctx) => {
-        const requestBody = (await ctx.request.json()) as IRequestBody;
-
-        console.log(requestBody);
-
-        const {
-            altitude,
-            accuracy,
-            batteryPercent,
-            cellStrength,
-            date,
-            latitude,
-            longitude,
-            provider,
-            session,
-            speed,
-            temperature,
-        } = requestBody;
+    router.post(Route.DATA, ...midware, async (ctx) => {
+        const requestBody = (await ctx.request.json()) as Telemetry;
 
         const client = await getClient(ctx);
-
-        // unideal but deal with it
-        await client.queryObject(`INSERT INTO telemetry("accuracy","altitude","batteryPercent","cellStrength","date","latitude","longitude","provider","session","speed","temperature") VALUES (${altitude},${accuracy},${batteryPercent},${cellStrength},'${date}',${latitude},${longitude},'${provider}','${session}',${speed},${temperature})`);
-
-        ctx.event.waitUntil(client.end());
-
-        // await ctx.env.DB.prepare('INSERT INTO telemetry VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)').bind(
-        //     altitude,
-        //     accuracy,
-        //     batteryPercent,
-        //     cellStrength,
-        //     date,
-        //     latitude,
-        //     longitude,
-        //     provider,
-        //     session,
-        //     speed,
-        //     temperature,
-        // ).run();
+        await executeSQL(client, ctx, async (db) => {
+            await addTelemetry(db, requestBody);
+        });
 
         return new Response(null, {
             status: 204,
         });
     });
-
-    // router.get(Route.DATA, async (ctx) => {
-    //     const client = await getClient(ctx);
-    //     const result = await client.queryObject('SElECT * from telemetry ORDER BY date ASC');
-    //     ctx.event.waitUntil(client.end());
-
-    //     return new Response(JSON.stringify(result.rows));
-    // });
 };
-
-async function getClient(ctx: Context<Env>) {
-    // https://github.com/cloudflare/worker-template-postgres/blob/master/src/index.ts
-    // @ts-expect-error
-    globalThis.CF_CLIENT_ID = ctx.env.CF_CLIENT_ID || undefined;
-    // @ts-expect-error
-    globalThis.CF_CLIENT_SECRET = ctx.env.CF_CLIENT_SECRET || undefined;
-
-    const client = new Client({
-        user: 'balloon_4',
-        database: 'postgres',
-        hostname: ctx.env.TUNNEL_HOST,
-        password: ctx.env.DATABASE_PASSWORD,
-        port: '5432',
-    });
-
-    await client.connect();
-
-    return client;
-}

@@ -6,6 +6,7 @@
         "allowJs": false,
         "checkJs": false,
         "exactOptionalPropertyTypes": false,
+        "strictNullChecks": true,
         "noPropertyAccessFromIndexSignature": false,
         "types": [
             "@cloudflare/workers-types",
