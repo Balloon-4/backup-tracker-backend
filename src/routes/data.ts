@@ -16,13 +16,13 @@ export const schema: Schema = {
     $schema: 'http://json-schema.org/draft-07/schema#',
     properties: {
         accuracy: {
-            type: 'number',
+            type: ['number', 'null'],
         },
         altitude: {
-            type: 'number',
+            type: ['number', 'null'],
         },
         batteryPercent: {
-            type: 'number',
+            type: ['number', 'null'],
         },
         cellStrength: {
             type: 'number',
@@ -37,16 +37,16 @@ export const schema: Schema = {
             type: 'number',
         },
         provider: {
-            type: 'string',
+            type: ['string', 'null'],
         },
         session: {
             type: 'string',
         },
         speed: {
-            type: 'number',
+            type: ['number', 'null'],
         },
         temperature: {
-            type: 'number',
+            type: ['number', 'null'],
         },
     },
     required: [
