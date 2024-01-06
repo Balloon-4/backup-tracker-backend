@@ -68,7 +68,7 @@ export const schema: Schema = {
 const midware = [new JSONBodyValidateMidware(schema).generate];
 
 export default (router: Router<Env>) => {
-    router.post(Route.DATA, ...midware, async (ctx) => {
+    router.post(Route.TELEMETRY, ...midware, async (ctx) => {
         const requestBody = (await ctx.request.json()) as Telemetry;
 
         const client = await getClient(ctx);

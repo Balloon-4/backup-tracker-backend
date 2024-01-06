@@ -2,6 +2,8 @@ name = "balloon-4"
 main = "src/index.ts"
 compatibility_date = "2023-08-01"
 
+route = { pattern = "backup-tracker.amogsus.com", custom_domain = true }
+
 [vars]
 
 # [[d1_databases]]

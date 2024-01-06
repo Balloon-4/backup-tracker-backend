@@ -13,7 +13,7 @@ export interface IMidware {
 }
 
 export enum Route {
-    DATA = '/data',
+    TELEMETRY = '/telemetry',
 }
 
 export interface Telemetry {
