@@ -4,8 +4,8 @@ import { Telemetry } from '../@types/types';
 
 export async function addTelemetry(db: Client, data: Telemetry) {
     const {
-        altitude,
         accuracy,
+        altitude,
         batteryPercent,
         cellStrength,
         date,

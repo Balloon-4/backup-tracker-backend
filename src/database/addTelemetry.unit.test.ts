@@ -15,10 +15,10 @@ describe('addTelemetry.ts', () => {
         mockPostgres.public.none(fs.readFileSync('./src/schema/schema.sql', 'utf8'));
     });
 
-    it('should add telemetry to the database', () => {
+    it('should add telemetry to the database in the correct format', () => {
         const telemetry = {
-            altitude: 0,
             accuracy: 0,
+            altitude: 0,
             batteryPercent: 0,
             cellStrength: 0,
             date: '2021-07-18T00:00:00.000Z',
@@ -30,14 +30,14 @@ describe('addTelemetry.ts', () => {
             temperature: 0,
         };
 
-        const queryObject = vi.fn((query: string) => mockPostgres.public.none(query));
+        const queryObject = vi.fn((query: string) => mockPostgres.public.query(query));
 
         const mockClient = {
             queryObject: queryObject,
         };
 
         addTelemetry(mockClient as unknown as Client, telemetry);
-
-        expect(queryObject).toHaveBeenCalledWith('INSERT INTO telemetry("accuracy","altitude","batteryPercent","cellStrength","date","latitude","longitude","provider","session","speed","temperature") VALUES (0,0,0,0,\'2021-07-18T00:00:00.000Z\',0,0,\'test\',\'test\',0,0)');
+        const data = mockPostgres.public.one('SELECT * FROM telemetry LIMIT 1');
+        expect(JSON.stringify(data)).toEqual(JSON.stringify(telemetry));
     });
 });

@@ -50,8 +50,8 @@ export const schema: Schema = {
         },
     },
     required: [
-        'altitude',
         'accuracy',
+        'altitude',
         'batteryPercent',
         'cellStrength',
         'date',
