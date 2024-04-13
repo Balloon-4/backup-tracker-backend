@@ -1,4 +1,4 @@
-// @ts-expect-error
+// @ts-expect-error CommonJS issue
 import { Client } from '@bubblydoo/cloudflare-workers-postgres-client';
 import { Context } from 'cloudworker-router';
 import { Env } from '../@types/types';
@@ -6,7 +6,7 @@ import { Env } from '../@types/types';
 // unsightly
 export function getClient(ctx: Context<Env>) {
     // https://github.com/cloudflare/worker-template-postgres/blob/master/src/index.ts
-    // @ts-expect-error
+    // @ts-expect-error this is necessary for Cloudflare Access with @bubblydoo/cloudflare-workers-postgres-client
     globalThis.CF_CLIENT_ID = ctx.env.CF_CLIENT_ID || undefined;
     // @ts-expect-error
     globalThis.CF_CLIENT_SECRET = ctx.env.CF_CLIENT_SECRET || undefined;

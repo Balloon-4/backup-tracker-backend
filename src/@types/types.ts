@@ -14,6 +14,7 @@ export interface IMidware {
 
 export enum Route {
     TELEMETRY = '/telemetry',
+    LOG = '/log',
 }
 
 export interface Telemetry {
@@ -28,4 +29,11 @@ export interface Telemetry {
     session: string;
     speed: number;
     temperature: number;
+}
+
+export interface Log {
+    content: string;
+    date: string;
+    level: string;
+    session: string;
 }

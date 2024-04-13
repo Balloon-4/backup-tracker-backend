@@ -1,4 +1,5 @@
-CREATE TABLE public.telemetry (
+CREATE TABLE public.telemetry
+(
     accuracy double precision,
     altitude double precision,
     "batteryPercent" double precision,
@@ -10,4 +11,17 @@ CREATE TABLE public.telemetry (
     session text NOT NULL,
     speed double precision,
     temperature double precision
+);
+
+ALTER TABLE ONLY public.telemetry
+    ADD CONSTRAINT telemetry_pkey PRIMARY KEY (date, session);
+
+CREATE TABLE public.log
+(
+    index serial NOT NULL,
+    content text NOT NULL,
+    date timestamp with time zone NOT NULL,
+    level text NOT NULL,
+    session text NOT NULL,
+    PRIMARY KEY (index)
 );

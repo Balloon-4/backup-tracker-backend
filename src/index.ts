@@ -1,6 +1,7 @@
 import { Router } from 'cloudworker-router';
 import type { Env } from './@types/types';
 import telemetry from './routes/telemetry';
+import log from './routes/log';
 
 export const router = new Router<Env>();
 
@@ -14,6 +15,7 @@ router.use(async (_, next) => {
 });
 
 telemetry(router);
+log(router);
 
 export default {
     fetch: async (request, env, ctx): Promise<Response> => router.handle(request, env, ctx),

@@ -1,8 +1,8 @@
 import {
     describe, expect, it, vi,
 } from 'vitest';
-// @ts-expect-error
-import { Client } from '@bubblydoo/cloudflare-workers-postgres-client';
+// @ts-expect-error CommonJS issue
+import type { Client } from '@bubblydoo/cloudflare-workers-postgres-client';
 import { Context } from 'cloudworker-router';
 import { executeSQL } from './executeSQL';
 import { Env } from '../@types/types';

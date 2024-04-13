@@ -1,5 +1,5 @@
-// @ts-expect-error
-import { Client } from '@bubblydoo/cloudflare-workers-postgres-client';
+// @ts-expect-error CommonJS issue
+import type { Client } from '@bubblydoo/cloudflare-workers-postgres-client';
 import { Telemetry } from '../@types/types';
 
 export async function addTelemetry(db: Client, data: Telemetry) {

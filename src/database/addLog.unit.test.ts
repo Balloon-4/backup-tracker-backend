@@ -5,7 +5,7 @@ import { IMemoryDb, newDb } from 'pg-mem';
 import fs from 'fs';
 // @ts-expect-error CommonJS issue
 import type { Client } from '@bubblydoo/cloudflare-workers-postgres-client';
-import { addTelemetry } from './addTelemetry';
+import { addLog } from './addLog';
 
 describe('addTelemetry.ts', () => {
     let mockPostgres: IMemoryDb;
@@ -16,18 +16,11 @@ describe('addTelemetry.ts', () => {
     });
 
     it('should add telemetry to the database in the correct format', () => {
-        const telemetry = {
-            accuracy: 0,
-            altitude: 0,
-            batteryPercent: 0,
-            cellStrength: 0,
+        const log = {
+            content: '🚨🚨🚨🚨🚨🚨🚨🚨🚨 uh oh ඞඞඞඞඞඞඞඞඞඞඞඞඞඞ',
             date: '2021-07-18T00:00:00.000Z',
-            latitude: 0,
-            longitude: 0,
-            provider: 'test',
+            level: 'error',
             session: 'test',
-            speed: 0,
-            temperature: 0,
         };
 
         const queryObject = vi.fn((query: string) => mockPostgres.public.query(query));
@@ -36,8 +29,11 @@ describe('addTelemetry.ts', () => {
             queryObject: queryObject,
         };
 
-        addTelemetry(mockClient as unknown as Client, telemetry);
-        const data = mockPostgres.public.one('SELECT * FROM telemetry LIMIT 1');
-        expect(JSON.stringify(data)).toEqual(JSON.stringify(telemetry));
+        addLog(mockClient as unknown as Client, log);
+        const data = mockPostgres.public.one('SELECT * FROM log LIMIT 1');
+        expect(JSON.stringify(data)).toEqual(JSON.stringify({
+            ...log,
+            index: 1,
+        }));
     });
 });
