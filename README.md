@@ -1,4 +1,4 @@
-# Balloon-4 Backup Tracker
+# Backup Tracker Backend
 
 This project provides an endpoint/API for a backup tracker to send telemetry to. Received telemetry is then saved to a PostgreSQL database, whose connection is currently provided over a Cloudflare Access protected Cloudflare Tunnel.
 
