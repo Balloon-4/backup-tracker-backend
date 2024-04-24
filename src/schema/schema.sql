@@ -7,6 +7,7 @@ CREATE TABLE public.telemetry
     date timestamp with time zone NOT NULL,
     latitude double precision,
     longitude double precision,
+    pressure double precision,
     provider text,
     session text NOT NULL,
     speed double precision,

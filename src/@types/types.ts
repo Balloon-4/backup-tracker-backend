@@ -26,6 +26,7 @@ export interface Telemetry {
     latitude: number;
     longitude: number;
     provider: string;
+    pressure: number;
     session: string;
     speed: number;
     temperature: number;

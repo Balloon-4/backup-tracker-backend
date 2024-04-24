@@ -36,6 +36,9 @@ export const schema: Schema = {
         longitude: {
             type: 'number',
         },
+        pressure: {
+            type: 'number',
+        },
         provider: {
             type: ['string', 'null'],
         },
@@ -57,6 +60,7 @@ export const schema: Schema = {
         'date',
         'latitude',
         'longitude',
+        'pressure',
         'provider',
         'session',
         'speed',

@@ -2,12 +2,14 @@
 
 This project provides an endpoint/API for a backup tracker to send telemetry to. Received telemetry is then saved to a PostgreSQL database, whose connection is currently provided over a Cloudflare Access protected Cloudflare Tunnel.
 
-## Prerequisites
+## Development
+
+### Prerequisites
 
 - Node.js LTS version
 - NPM
 
-## Install
+### Dependencies
 
 Install dependencies with
 
@@ -15,7 +17,7 @@ Install dependencies with
 npm i
 ```
 
-## Variables
+### Variables
 
 Add the following secrets
 
@@ -29,7 +31,7 @@ Add the following secrets
 | `DATABASE_PASS` | Password to the PostgreSQL database                    | Secret |
 | `TUNNEL_HOST`   | Cloudflare Tunnel URL for the PostgreSQL database      | Secret |
 
-## Development
+### Development
 
 To start the development server, run:
 
@@ -37,7 +39,7 @@ To start the development server, run:
 npm run start
 ```
 
-## Testing
+### Testing
 
 To run the unit tests, use:
 

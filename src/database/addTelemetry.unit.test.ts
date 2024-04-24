@@ -24,6 +24,7 @@ describe('addTelemetry.ts', () => {
             date: '2021-07-18T00:00:00.000Z',
             latitude: 0,
             longitude: 0,
+            pressure: 0,
             provider: 'test',
             session: 'test',
             speed: 0,

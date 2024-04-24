@@ -11,11 +11,12 @@ export async function addTelemetry(db: Client, data: Telemetry) {
         date,
         latitude,
         longitude,
+        pressure,
         provider,
         session,
         speed,
         temperature,
     } = data;
 
-    await db.queryObject(`INSERT INTO telemetry("accuracy","altitude","batteryPercent","cellStrength","date","latitude","longitude","provider","session","speed","temperature") VALUES (${accuracy},${altitude},${batteryPercent},${cellStrength},'${date}',${latitude},${longitude},'${provider}','${session}',${speed},${temperature})`);
+    await db.queryObject(`INSERT INTO telemetry("accuracy","altitude","batteryPercent","cellStrength","date","latitude","longitude","pressure","provider","session","speed","temperature") VALUES (${accuracy},${altitude},${batteryPercent},${cellStrength},'${date}',${latitude},${longitude},'${pressure}','${provider}','${session}',${speed},${temperature})`);
 }
