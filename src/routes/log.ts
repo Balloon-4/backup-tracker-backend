@@ -43,6 +43,8 @@ export default (router: Router<Env>) => {
     router.post(Route.LOG, ...midware, async (ctx) => {
         const requestBody = (await ctx.request.json()) as Log;
 
+        console.log(JSON.stringify(requestBody));
+
         const client = await getClient(ctx);
         await executeSQL(client, ctx, async (db) => {
             await addLog(db, requestBody);

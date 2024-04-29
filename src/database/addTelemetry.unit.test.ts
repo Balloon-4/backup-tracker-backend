@@ -15,7 +15,7 @@ describe('addTelemetry.ts', () => {
         mockPostgres.public.none(fs.readFileSync('./src/schema/schema.sql', 'utf8'));
     });
 
-    it('should add telemetry to the database in the correct format', () => {
+    it('should add telemetry to the database in the correct format', async () => {
         const telemetry = {
             accuracy: 0,
             altitude: 0,
@@ -29,6 +29,7 @@ describe('addTelemetry.ts', () => {
             session: 'test',
             speed: 0,
             temperature: 0,
+            timeToFix: 0,
         };
 
         const queryObject = vi.fn((query: string) => mockPostgres.public.query(query));
@@ -37,8 +38,36 @@ describe('addTelemetry.ts', () => {
             queryObject: queryObject,
         };
 
-        addTelemetry(mockClient as unknown as Client, telemetry);
+        await addTelemetry(mockClient as unknown as Client, telemetry);
         const data = mockPostgres.public.one('SELECT * FROM telemetry LIMIT 1');
+        expect(JSON.stringify(data)).toEqual(JSON.stringify(telemetry));
+    });
+
+    it('should add telemetry to the database in the correct format with maximized null values', async () => {
+        const telemetry = {
+            accuracy: null,
+            altitude: null,
+            batteryPercent: null,
+            cellStrength: null,
+            date: '2022-07-18T00:00:00.000Z',
+            latitude: null,
+            longitude: null,
+            pressure: null,
+            provider: null,
+            session: 'test',
+            speed: null,
+            temperature: null,
+            timeToFix: null,
+        };
+
+        const queryObject = vi.fn((query: string) => mockPostgres.public.query(query));
+
+        const mockClient = {
+            queryObject: queryObject,
+        };
+
+        await addTelemetry(mockClient as unknown as Client, telemetry);
+        const data = mockPostgres.public.one('SELECT * FROM telemetry ORDER BY date DESC LIMIT 1');
         expect(JSON.stringify(data)).toEqual(JSON.stringify(telemetry));
     });
 });

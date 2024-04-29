@@ -25,19 +25,19 @@ export const schema: Schema = {
             type: ['number', 'null'],
         },
         cellStrength: {
-            type: 'number',
+            type: ['number', 'null'],
         },
         date: {
             type: 'string',
         },
         latitude: {
-            type: 'number',
+            type: ['number', 'null'],
         },
         longitude: {
-            type: 'number',
+            type: ['number', 'null'],
         },
         pressure: {
-            type: 'number',
+            type: ['number', 'null'],
         },
         provider: {
             type: ['string', 'null'],
@@ -49,6 +49,9 @@ export const schema: Schema = {
             type: ['number', 'null'],
         },
         temperature: {
+            type: ['number', 'null'],
+        },
+        timeToFix: {
             type: ['number', 'null'],
         },
     },
@@ -65,6 +68,7 @@ export const schema: Schema = {
         'session',
         'speed',
         'temperature',
+        'timeToFix',
     ],
     type: 'object',
 };
@@ -74,6 +78,8 @@ const midware = [new JSONBodyValidateMidware(schema).generate];
 export default (router: Router<Env>) => {
     router.post(Route.TELEMETRY, ...midware, async (ctx) => {
         const requestBody = (await ctx.request.json()) as Telemetry;
+
+        console.log(JSON.stringify(requestBody));
 
         const client = await getClient(ctx);
         await executeSQL(client, ctx, async (db) => {

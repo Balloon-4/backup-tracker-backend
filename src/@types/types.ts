@@ -18,18 +18,19 @@ export enum Route {
 }
 
 export interface Telemetry {
-    altitude: number;
-    accuracy: number;
-    batteryPercent: number;
-    cellStrength: number;
+    altitude: number | null;
+    accuracy: number | null;
+    batteryPercent: number | null;
+    cellStrength: number | null;
     date: string;
-    latitude: number;
-    longitude: number;
-    provider: string;
-    pressure: number;
+    latitude: number | null;
+    longitude: number | null;
+    provider: string | null;
+    pressure: number | null;
     session: string;
-    speed: number;
-    temperature: number;
+    speed: number | null;
+    temperature: number | null;
+    timeToFix: number | null;
 }
 
 export interface Log {
