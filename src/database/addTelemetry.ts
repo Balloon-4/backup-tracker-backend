@@ -7,7 +7,9 @@ export async function addTelemetry(db: Client, data: Telemetry) {
         accuracy,
         altitude,
         batteryPercent,
+        cellPower,
         cellStrength,
+        cellTower,
         date,
         latitude,
         longitude,
@@ -19,5 +21,5 @@ export async function addTelemetry(db: Client, data: Telemetry) {
         timeToFix,
     } = data;
 
-    await db.queryObject(`INSERT INTO telemetry("accuracy","altitude","batteryPercent","cellStrength","date","latitude","longitude","pressure","provider","session","speed","temperature","timeToFix") VALUES (${accuracy ?? 'NULL'},${altitude ?? 'NULL'},${batteryPercent ?? 'NULL'},${cellStrength ?? 'NULL'},'${date}',${latitude ?? 'NULL'},${longitude ?? 'NULL'},${pressure ?? 'NULL'},${provider ? `'${provider}'` : 'NULL'},'${session}',${speed ?? 'NULL'},${temperature ?? 'NULL'},${timeToFix ?? 'NULL'})`);
+    await db.queryObject(`INSERT INTO telemetry("accuracy","altitude","batteryPercent","cellPower","cellStrength","cellTower","date","latitude","longitude","pressure","provider","session","speed","temperature","timeToFix") VALUES (${accuracy ?? 'NULL'},${altitude ?? 'NULL'},${batteryPercent ?? 'NULL'},${cellPower ?? 'NULL'},${cellStrength ?? 'NULL'},${cellTower ? `'${cellTower}'` : 'NULL'},'${date}',${latitude ?? 'NULL'},${longitude ?? 'NULL'},${pressure ?? 'NULL'},${provider ? `'${provider}'` : 'NULL'},'${session}',${speed ?? 'NULL'},${temperature ?? 'NULL'},${timeToFix ?? 'NULL'})`);
 }

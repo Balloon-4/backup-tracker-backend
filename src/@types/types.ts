@@ -21,7 +21,9 @@ export interface Telemetry {
     altitude: number | null;
     accuracy: number | null;
     batteryPercent: number | null;
+    cellPower: number | null,
     cellStrength: number | null;
+    cellTower: string | null,
     date: string;
     latitude: number | null;
     longitude: number | null;

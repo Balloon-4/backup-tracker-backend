@@ -3,7 +3,9 @@ CREATE TABLE public.telemetry
     accuracy double precision, /* Estimated accuracy of GPS coordinates, from GPS data */
     altitude double precision, /* Altitude, from GPS data */
     "batteryPercent" double precision, /* Battery level of phone in percent */
+    "cellPower" double precision, /* Power of the cell tower with the strongest connection in dBm */
     "cellStrength" double precision, /* Strength of connection to cell tower in percent */
+    "cellTower" text, /* Properties of the cell tower with the strongest connection */
     date timestamp with time zone NOT NULL, /* Date of GPS fix, from GPS data */
     latitude double precision, /* Latitude, from GPS data */
     longitude double precision, /* Longitude, from GPS data */
