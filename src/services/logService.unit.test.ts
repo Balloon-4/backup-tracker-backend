@@ -5,9 +5,9 @@ import { IMemoryDb, newDb } from 'pg-mem';
 import fs from 'fs';
 // @ts-expect-error CommonJS issue
 import type { Client } from '@bubblydoo/cloudflare-workers-postgres-client';
-import { addLog } from './addLog';
+import { addLog } from './logService';
 
-describe('addTelemetry.ts', () => {
+describe('telemetryService.ts', () => {
     let mockPostgres: IMemoryDb;
 
     beforeAll(() => {
@@ -31,9 +31,11 @@ describe('addTelemetry.ts', () => {
 
         addLog(mockClient as unknown as Client, log);
         const data = mockPostgres.public.one('SELECT * FROM log LIMIT 1');
-        expect(JSON.stringify(data)).toEqual(JSON.stringify({
-            ...log,
-            index: 1,
-        }));
+        expect(JSON.stringify(data)).toEqual(
+            JSON.stringify({
+                ...log,
+                index: 1,
+            }),
+        );
     });
 });

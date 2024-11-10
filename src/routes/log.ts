@@ -2,10 +2,9 @@ import type { Router } from 'cloudworker-router';
 // @ts-expect-error
 import { Schema } from '@cfworker/json-schema';
 import { type Env, Log, Route } from '../@types/types';
-import { executeSQL } from '../database/executeSQL';
-import { getClient } from '../database/getClient';
 import { JSONBodyValidateMidware } from '../midware/JSONBodyValidateMidware';
-import { addLog } from '../database/addLog';
+import { addLog } from '../services/logService';
+import { executeSQL, getClient } from '../repositories/database';
 
 // https://github.com/cloudflare/worker-template-postgres
 // https://github.com/bubblydoo/cloudflare-workers-postgres-client/tree/main
@@ -28,12 +27,7 @@ export const schema: Schema = {
             type: 'string',
         },
     },
-    required: [
-        'content',
-        'date',
-        'level',
-        'session',
-    ],
+    required: ['content', 'date', 'level', 'session'],
     type: 'object',
 };
 
@@ -45,7 +39,7 @@ export default (router: Router<Env>) => {
 
         console.log(JSON.stringify(requestBody));
 
-        const client = await getClient(ctx);
+        const client = getClient(ctx);
         await executeSQL(client, ctx, async (db) => {
             await addLog(db, requestBody);
         });

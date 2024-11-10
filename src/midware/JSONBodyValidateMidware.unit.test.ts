@@ -7,11 +7,6 @@ import { Schema } from '@cfworker/json-schema';
 import { Env } from '../@types/types';
 import { JSONBodyValidateMidware } from './JSONBodyValidateMidware';
 
-// interface Test {
-//     foo: string;
-//     bar?: number;
-// }
-
 export const schema: Schema = {
     $id: '#/definitions/Test',
     $schema: 'http://json-schema.org/draft-07/schema#',

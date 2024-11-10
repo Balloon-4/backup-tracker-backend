@@ -5,9 +5,9 @@ import { IMemoryDb, newDb } from 'pg-mem';
 import fs from 'fs';
 // @ts-expect-error CommonJS issue
 import type { Client } from '@bubblydoo/cloudflare-workers-postgres-client';
-import { addTelemetry } from './addTelemetry';
+import { addTelemetry } from './telemetryService';
 
-describe('addTelemetry.ts', () => {
+describe('telemetryService.ts', () => {
     let mockPostgres: IMemoryDb;
 
     beforeAll(() => {

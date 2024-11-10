@@ -2,12 +2,12 @@ import {
     describe, expect, it, vi,
 } from 'vitest';
 // @ts-expect-error CommonJS issue
-import type { Client } from '@bubblydoo/cloudflare-workers-postgres-client';
+import { Client } from '@bubblydoo/cloudflare-workers-postgres-client';
 import { Context } from 'cloudworker-router';
-import { executeSQL } from './executeSQL';
 import { Env } from '../@types/types';
+import { executeSQL, getClient } from './database';
 
-describe('executeSQL.ts', () => {
+describe('database.ts', () => {
     it('should call connect(), call the function with the client, and call close()', async () => {
         const client = {
             connect: vi.fn(),
@@ -23,5 +23,22 @@ describe('executeSQL.ts', () => {
         expect(client.connect).toHaveBeenCalled();
         expect(func).toHaveBeenCalledWith(client);
         expect(client.end).toHaveBeenCalled();
+    });
+
+    it('should set Access headers through globalThis and return an instance of Client', async () => {
+        const ctx = {
+            env: {
+                CF_CLIENT_ID: 'id',
+                CF_CLIENT_SECRET: 'secret',
+            },
+        };
+
+        const client = getClient(ctx as unknown as Context<Env>);
+
+        // @ts-expect-error
+        expect(globalThis.CF_CLIENT_ID).toEqual('id');
+        // @ts-expect-error
+        expect(globalThis.CF_CLIENT_SECRET).toEqual('secret');
+        expect(client).toBeInstanceOf(Client);
     });
 });
